@@ -1,0 +1,21 @@
+{
+  "name": "previous",
+  "version": "0.0.0",
+  "description": "A modern Javascript framework for quickly building intricate web-apps.",
+  "main": "compiler.js",
+  "type": "module",
+  "bin": {
+    "previous": "cli.js"
+  },
+  "dependencies": {
+    "commander": "^13.1.0",
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "esbuild": "^0.14.54",
+    "glob": "^7.2.3",
+    "nodemon": "^2.0.22"
+  },
+  "author": "",
+  "license": "ISC"
+}
