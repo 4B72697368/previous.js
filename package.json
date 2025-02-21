@@ -10,11 +10,6 @@
   "dependencies": {
     "commander": "^13.1.0"
   },
-  "devDependencies": {
-    "esbuild": "^0.14.54",
-    "glob": "^7.2.3",
-    "nodemon": "^2.0.22"
-  },
   "author": "Krish Arora",
   "license": "MIT"
 }
