@@ -1,6 +1,6 @@
 {
-  "name": "previous",
-  "version": "0.0.0",
+  "name": "previous-dev",
+  "version": "0.1.0",
   "description": "A modern Javascript framework for quickly building intricate web-apps.",
   "main": "compiler.js",
   "type": "module",
@@ -8,14 +8,13 @@
     "previous": "cli.js"
   },
   "dependencies": {
-    "commander": "^13.1.0",
-    "express": "^4.21.2"
+    "commander": "^13.1.0"
   },
   "devDependencies": {
     "esbuild": "^0.14.54",
     "glob": "^7.2.3",
     "nodemon": "^2.0.22"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "Krish Arora",
+  "license": "MIT"
 }
