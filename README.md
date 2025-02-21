@@ -1,3 +1,3 @@
-### previous.js
+# previous.js
 
-# A modern Javascript framework for quickly building intricate web-apps.
+### A modern Javascript framework for quickly building intricate web-apps.
