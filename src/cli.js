@@ -7,6 +7,7 @@ import path from 'path';
 import fs from 'fs/promises';
 import readline from 'readline'
 import { pathToFileURL } from 'url';
+import { exec } from 'child_process';
 
 const fileExists = async (filePath) => {
   try {
@@ -230,9 +231,10 @@ const startServer = async (startPort) => {
   }
 };
 
-const createProject = async (title) => {
+const createProject = async (title, process) => {
   const projectDir = title;
   await fs.mkdir(projectDir, { recursive: true });
+  process.stdout.write('📁 Created project directory\n');
 
   const packageJson = {
     name: title,
@@ -244,8 +246,7 @@ const createProject = async (title) => {
       dev: "nodemon --exec \"previous start\" --ext js,ts,json"
     },
     devDependencies: {
-      nodemon: "^2.0.22",
-      previous: "0.1.0"
+      nodemon: "^2.0.22"
     }
   };
 
@@ -253,6 +254,7 @@ const createProject = async (title) => {
     path.join(projectDir, 'package.json'),
     JSON.stringify(packageJson, null, 2)
   );
+  process.stdout.write('📝 Created package.json\n');
 
   let config =
 `const previousConfig = {
@@ -260,15 +262,17 @@ const createProject = async (title) => {
 };
 
 export default previousConfig;
-  `;
+`;
 
   await fs.writeFile(
     path.join(projectDir, 'previous.config.js'),
     config
   );
+  process.stdout.write('⚙️  Created previous.config.js\n');
 
   const appDir = path.join(projectDir, 'app');
   await fs.mkdir(appDir, { recursive: true });
+  process.stdout.write('📁 Created app directory\n');
   
   let page =
 `export const main = () => {
@@ -281,12 +285,35 @@ export default previousConfig;
 };
 
 export default main;
-  `;
+`;
 
   await fs.writeFile(
     path.join(appDir, 'page.js'),
     page
   );
+  process.stdout.write('📄 Created page.js\n');
+
+  process.stdout.write('📦 Installing dependencies...\n');
+  await new Promise((resolve, reject) => {
+    const npm = exec('npm install', { cwd: projectDir });
+
+    npm.stdout.pipe(process.stdout);
+    npm.stderr.pipe(process.stderr);
+
+    npm.on('close', (code) => {
+      if (code === 0) {
+        process.stdout.write('✅ Dependencies installed successfully\n');
+        resolve();
+      } else {
+        reject(new Error(`npm install failed with code ${code}`));
+      }
+    });
+  });
+
+  process.stdout.write('\n🎉 Project created successfully!\n');
+  process.stdout.write(`\nNext steps:\n`);
+  process.stdout.write(`  cd ${title}\n`);
+  process.stdout.write('  npm run dev\n\n');
 };
 
 const askQuestion = (query) => {
@@ -306,9 +333,22 @@ const program = new Command();
 program
   .command('create')
   .description('Initialize a new Previous.js project')
-  .action(async () => {
-    const title = await askQuestion("What would you like to call the project? \n");
-    await createProject(title);
+  .option('-n, --name <name>', 'Specify the project name')
+  .action(async (cmd) => {
+    let title;
+    
+    if (cmd.name) {
+      title = cmd.name;
+    } else {
+      title = await askQuestion("What would you like to call the project? \n");
+    }
+
+    try {
+      await createProject(title, process);
+    } catch (error) {
+      process.stderr.write(`❌ Error: ${error.message}\n`);
+      process.exit(1);
+    }
   });
 
 program

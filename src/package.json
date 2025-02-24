@@ -1,8 +1,8 @@
 {
   "name": "previous-dev",
-  "version": "0.1.1",
+  "version": "0.1.3",
   "description": "A modern Javascript framework for quickly building intricate web-apps.",
-  "main": "compiler.js",
+  "main": "tools.js",
   "type": "module",
   "bin": {
     "previous": "cli.js"
