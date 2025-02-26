@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 0, 0, 0;
+  --background-end-rgb: 0, 0, 0;
+}
+
+@property --gradient-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes gradient-rotate {
+  0% {
+    --gradient-angle: 0deg;
+  }
+  100% {
+    --gradient-angle: 360deg;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: #000;
+}
+
+.gradient-bg {
+  background: radial-gradient(circle at 50% 0%, rgba(120, 41, 190, 0.5), transparent 75%),
+    radial-gradient(circle at 0% 50%, rgba(41, 101, 190, 0.5), transparent 75%),
+    radial-gradient(circle at 100% 50%, rgba(76, 0, 255, 0.5), transparent 75%);
+  background-color: black;
+  background-attachment: fixed;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-hover {
+  transition: all 0.2s ease;
+}
+
+.glass-hover:hover {
+  background: rgba(255, 255, 255, 0.06);
+  transform: translateY(-2px);
+}
+
+.text-gradient {
+  background: linear-gradient(to right bottom, rgb(255, 255, 255) 30%, rgba(255, 255, 255, 0.38));
+  background-clip: text;
+  color: transparent;
+}
